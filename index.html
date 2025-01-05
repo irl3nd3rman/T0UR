@@ -14,6 +14,7 @@
             text-align: center;
             scrollbar-width: thin;
             scrollbar-color: #357235 #111;
+            
         }
        h1 {
             text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;}
@@ -55,6 +56,55 @@
         
     </style>
    
+   <div id="music-player" class="matrix-theme">
+    <div class="music-controls">
+        <span id="current-track">Track 1</span>
+        <audio id="audio-player" controls>
+            <source id="audio-source" src="music/track1.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <button id="prev-btn">&#9664;&#9664;</button>
+        <button id="next-btn">&#9654;&#9654;</button>
+    </div>
+</div>
+<script>
+  const tracks = [
+      { name: "BraindeadACID", url: "braindeadacid.mp3" },
+      { name: "WHOOMPS!", url: "Whoomps!.mp3" },
+      { name: "Out Of Space", url: "Out of space.mp3" }
+  ];
+
+  let currentTrackIndex = 0;
+  const audioPlayer = document.getElementById("audio-player");
+  const audioSource = document.getElementById("audio-source");
+  const currentTrackDisplay = document.getElementById("current-track");
+  const prevButton = document.getElementById("prev-btn");
+  const nextButton = document.getElementById("next-btn");
+
+  function loadTrack(index) {
+      currentTrackIndex = index;
+      const track = tracks[currentTrackIndex];
+      audioSource.src = track.url;
+      audioPlayer.load();
+      currentTrackDisplay.textContent = track.name;
+      audioPlayer.play();
+  }
+
+  prevButton.addEventListener("click", () => {
+      const newIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+      loadTrack(newIndex);
+  });
+
+  nextButton.addEventListener("click", () => {
+      const newIndex = (currentTrackIndex + 1) % tracks.length;
+      loadTrack(newIndex);
+  });
+
+  // Automatically load the first track on page load
+  window.addEventListener("DOMContentLoaded", () => {
+      loadTrack(currentTrackIndex);
+  });
+</script>
 
     
 </head>
